@@ -1,0 +1,155 @@
+{% extends 'layout/base.html' %}
+
+{% block styles %}
+	{{ super() }}
+	<link href="{{ url_for('static', filename='css/d3.css') }}" rel="stylesheet">
+	<style type="text/css">
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+		.axis text {
+			font-family: sans-serif;
+			font-size: 11px;
+		}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}" charset="utf-8" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/chart.js') }}" charset="utf-8" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(function () {
+			// document ready
+			var d3_width = $('.section-body').width();
+
+			order_amount_monthly({{ amount_monthly|safe }}, d3_width);
+
+			order_count_monthly({{ orders_monthly|safe }}, d3_width);
+
+			order_count_hourly({{ orders_hourly|safe }}, d3_width);
+
+			order_channel_stats({{ pie|safe }}, d3_width);
+
+			order_money_stats({{ money_stats|safe }}, d3_width);
+
+			order_repurchase_stats({{ repurchase_stats|safe }}, d3_width);
+
+			order_area_stats({{ area_stats|safe }}, d3_width);
+
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-xs-12">
+		<div class="card">
+			<div class="card-header">
+				JD Order Stats
+			</div>
+			<div class="card-body">
+				<div class="row">
+
+					<div class="col-lg-12 col-md-12">
+						<div class="section">
+							<div class="section-title">销售趋势分析</div>
+							<div class="section-body">
+								<div class="amount-monthly"></div>
+								<div class="orders-monthly"></div>
+								<div class="orders-hourly"></div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-lg-12 col-md-12">
+						<div class="section">
+							<div class="section-title">销售渠道分布</div>
+							<div class="section-body">
+								<div class="sale-channels"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12 col-md-12">
+						<div class="section">
+							<div class="section-title">销售客单价范围</div>
+							<div class="section-body">
+								<div class="money-stats"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12 col-md-12">
+						<div class="section">
+							<div class="section-title">重复购买率</div>
+							<div class="section-body">
+								<div class="repurchase-stats"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-12 col-md-12">
+						<div class="section">
+							<div class="section-title">人群地区分布</div>
+							<div class="section-body">
+								<p>根据各个省份的数值从小到大，显示的颜色由浅到深。</p>
+								<div class="sale-area"></div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		<div class="card">
+			<div class="card-header">
+				JD Top 100 销售排行榜
+			</div>
+			<div class="card-body no-padding">
+				<div class="table-responsive">
+					<table class="table card-table">
+						<thead>
+						<tr>
+							<th>序号</th>
+							<th>ID</th>
+							<th>产品名称</th>
+							<th>销售数量</th>
+							<th>销售额</th>
+							<th>占比</th>
+						</tr>
+						</thead>
+						<tbody>
+							{% for p in top_products %}
+							<tr>
+								<td>{{ loop.index }}</td>
+								<td>{{ p.product_id }}</td>
+								<td>{{ p.name | truncate(20, True) }}</td>
+								<td>{{ p.quantity }}</td>
+								<td>{{ p.total_money }}</td>
+								<td>{{ p.percent }}%</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

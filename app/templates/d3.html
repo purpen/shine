@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='d3.v3.min.js') }}" charset="utf-8" type="text/javascript"></script>
+	<style type="text/css">
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+		.axis text {
+			font-family: sans-serif;
+			font-size: 11px;
+		}
+		.mytext {
+			fill: white;
+    		text-anchor: middle;
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	/*
+	var str = 'china';
+	var dataset = ["I like dog","I like cat","I like snake"];
+
+	var body = d3.select('body');
+	var p = body.selectAll('p');
+
+	p.style('color', 'red')
+		.style('font-size', '72px');
+
+
+	p.datum(str);
+
+	p.text(function (d, i) {
+		return "第 "+ i + " 个元素绑定的数据是 " + d;
+	});
+
+	p.data(dataset)
+		.text(function (d, i) {
+			return d;
+		});
+
+	body.append('p').text('append p element');
+
+	body.select("#myid").insert('p').text('insert p element');
+
+	body.select('#myid').remove();
+	*/
+
+	/*
+	var width = 300, height= 300;
+	var svg = d3.select('.container')
+				.append('svg')
+				.attr('width', width)
+				.attr('height', height);
+
+	// var dataset = [ 250 , 210 , 170 , 130 , 90 ];  //数据（表示矩形的宽度）
+	var dataset = [ 2.5 , 2.1 , 1.7 , 1.3 , 0.9 ];
+	var rectHeight = 25;
+	var linear = d3.scale.linear()
+						.domain([0, d3.max(dataset)])
+						.range([0, 250]);
+
+	var axis = d3.svg.axis()
+		.scale(linear)
+		.orient('bottom')
+		.ticks(7);
+
+
+	svg.selectAll('rect')
+		.data(dataset)
+		.enter()
+		.append('rect')
+		.attr('x', 20)
+		.attr('y', function (d, i) {
+			return i * rectHeight;
+		})
+		.attr('width', function (d) {
+			return linear(d);
+		})
+		.attr('height', rectHeight-2)
+		.attr('fill', 'steelblue');
+
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', "translate(20, 130)")
+		.call(axis);
+	*/
+
+	// 画布的大小
+	var width = 400, height = 400;
+	// body里添加 svg 画布
+	var svg = d3.select('.container')
+			.append('svg')
+			.attr('width', width)
+			.attr('height', height);
+
+	// 画布周边的空白
+	var padding = {
+		left: 30,
+		right: 30,
+		top: 20,
+		bottom: 20
+	};
+
+	// 定义一个数组
+	var dataset = [10, 20, 30, 40, 33, 24, 12, 5];
+
+	// x轴的比例尺
+	var xScale = d3.scale.ordinal()
+			.domain(d3.range(dataset.length))
+			.rangeRoundBands([0, width - padding.left - padding.right]);
+
+	var yScale = d3.scale.linear()
+		.domain([0, d3.max(dataset)])
+		.range([height - padding.top - padding.bottom, 0]);
+
+	// 定义x轴
+	var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient('bottom');
+	// 定义y轴
+	var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient('left');
+
+	var rectPadding = 4;
+
+	// 添加矩形元素
+	var rects = svg.selectAll('.myrect')
+		.data(dataset)
+		.enter()
+		.append('rect')
+		.attr('class', 'myrect')
+		.attr('transform', 'translate('+ padding.left +', '+ padding.top +')')
+		.attr('x', function (d, i) {
+			return xScale(i) + rectPadding/2;
+		})
+		.attr('width', xScale.rangeBand() - rectPadding)
+		.attr('y', function (d, i) {
+			var min = yScale.domain()[0];
+			return yScale(min);
+		})
+		.attr('fill', 'steelblue')
+		.on('mouseover', function () {
+			d3.select(this)
+				.attr('fill', 'yellow')
+		})
+		.on('mouseout', function () {
+			d3.select(this)
+				.transition()
+				.duration(500)
+				.attr('fill', 'steelblue')
+		})
+		.attr('height',function (d) {
+			return 0;
+		})
+		.transition()
+		.delay(function (d, i) {
+			return i*200;
+		})
+		.duration(2000)
+		.ease('bounce')
+		.attr('y', function (d) {
+			return yScale(d)
+		})
+		.attr('height', function (d) {
+			return height - padding.top - padding.bottom - yScale(d);
+		});
+
+	// 添加文字元素
+	var texts = svg.selectAll('.mytext')
+		.data(dataset)
+		.enter()
+		.append('text')
+		.attr('class', 'mytext')
+		.attr('transform', "translate("+ padding.left +", "+ padding.top +")")
+		.attr('x', function (d, i) {
+			return xScale(i) + rectPadding/2;
+		})
+		.attr('dx', function () {
+			return (xScale.rangeBand() - rectPadding)/2;
+		})
+		.attr('dy', function (d) {
+			return 20;
+		})
+		.text(function (d) {
+			return d;
+		})
+		.attr('y', function (d) {
+			var min = yScale.domain()[0];
+			return yScale(min);
+		})
+		.transition()
+		.delay(function (d, i) {
+			return i * 200;
+		})
+		.duration(2000)
+		.ease('bounce')
+		.attr('y', function (d) {
+			return yScale(d);
+		});
+
+	// 添加x轴
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', "translate("+ padding.left +", "+ (height - padding.bottom) +")")
+		.call(xAxis);
+
+	svg.append('g')
+		.attr('class', 'axis')
+		.attr('transform', 'translate('+ padding.left +', '+ padding.top +')')
+		.call(yAxis);
+
+</script>
+</body>
+</html>

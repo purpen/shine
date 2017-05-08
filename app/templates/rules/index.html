@@ -1,0 +1,70 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				Spider rules list
+			</div>
+			<div class="card-body">
+				<div class="buttons">
+					<a href="{{ url_for('main.rule_create') }}" class="btn btn-success">Add Rule</a>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table card-table">
+						<thead>
+							<tr>
+								<th>
+									Site
+								</th>
+								<th>
+									Spider
+								</th>
+								<th>
+									Allow domains
+								</th>
+								<th>
+									Start urls
+								</th>
+								<th>
+									Enable
+								</th>
+								<th>
+									Actions
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for r in rules %}
+							<tr>
+								<td>{{ r.site }}</td>
+								<td>{{ r.name }}</td>
+								<td>{{ r.allow_domains }}</td>
+								<td>
+									{{ r.start_urls }}
+								</td>
+								<td>
+									{% if r.enabled %}
+									<span class="label label-success">已启用</span>
+									{% else %}
+									<span class="label label-default">禁用</span>
+									{% endif %}
+								</td>
+								<td>
+									<a href="{{ url_for('main.rule_update', id=r._id) }}">Edit</a>
+									<a href="{{ url_for('main.rule_destroy', id=r._id) }}">Delete</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

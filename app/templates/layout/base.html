@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %}Shine D-AI System{% endblock %}</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	{% block meta %}{% endblock %}
+
+	<link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico') }}"
+		  type="image/x-icon">
+	<link rel="icon" href="{{ url_for('static', filename = 'favicon.ico') }}"
+		  type="image/x-icon">
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/vendor.css', _external=True) }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/flat-admin.css', _external=True) }}">
+	<!-- Theme -->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/theme/blue-sky.css', _external=True) }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/docs.css', _external=True) }}">
+	{% block styles %}{% endblock %}
+
+</head>
+
+<body>
+<div class="app app-default">
+
+	{% block sitebar %}
+		{% include 'block/sitebar.html' %}
+	{% endblock %}
+
+	<script type="text/ng-template" id="sidebar-dropdown.tpl.html">
+		<div class="dropdown-background">
+			<div class="bg"></div>
+		</div>
+		<div class="dropdown-container">
+			{{ list }}
+		</div>
+	</script>
+
+	<div class="app-container">
+		{% block header %}
+			{% include 'block/header.html' %}
+		{% endblock %}
+
+		{% block content %}
+			<!--main content panel-->
+		{% endblock %}
+
+		<footer class="app-footer">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="footer-copyright">
+						Copyright © 2016 Shine Co,Ltd.
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	</div>
+
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/vendor.js', external=True) }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/app.js', external=True) }}"></script>
+
+{% block scripts %}
+
+{% endblock %}
+
+</body>
+</html>

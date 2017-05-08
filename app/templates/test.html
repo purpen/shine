@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+	var margin = {top: 30, right: 20, bottom: 70, left: 50},
+		width = 600 - margin.left - margin.right,
+		height = 270 - margin.top - margin.bottom;
+
+
+
+	var axisScale = d3.scale.linear().domain([0, 500]).range([0, width]);
+
+	var yaxisScale = d3.scale.linear().domain([0, 5]).range([height,  0]);
+
+	var xAxis = d3.svg.axis().scale(axisScale).orient('bottom');
+	var yAxis = d3.svg.axis().scale(yaxisScale).orient('left');
+
+	var svgContainer = d3.select('body').append('svg')
+		.attr('width', width + margin.left + margin.right)
+		.attr('height', height + margin.top + margin.bottom)
+		.append('g')
+		.attr('transform', 'translate("'+ margin.left +'", "'+ margin.top +'")');
+
+	svgContainer.append('g')
+		.attr('class', 'x axis')
+		.attr('transform', 'translate(0,'+ height + ')')
+		.call(yAxis);
+
+	var line = d3.svg.line()
+			.x(function (d, i) {
+				return axisScale(d.x);
+			})
+			.y(function (d, i) {
+				return yaxisScale(d.y);
+			});
+	var data = {{ data|safe }};
+
+	svgContainer.append('svg:path')
+				.attr('class', 'line')
+				.attr('d', line(data))
+
+</script>
+</body>
+</html>

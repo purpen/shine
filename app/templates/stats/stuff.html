@@ -1,0 +1,144 @@
+{% extends 'layout/base.html' %}
+
+{% block styles %}
+	{{ super() }}
+	<link href="{{ url_for('static', filename='css/d3.css') }}" rel="stylesheet">
+	<style type="text/css">
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+		.axis text {
+			font-family: sans-serif;
+			font-size: 11px;
+		}
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	{{ super() }}
+	<script src="{{ url_for('static', filename='js/d3.v3.min.js') }}" charset="utf-8" type="text/javascript"></script>
+	<script src="{{ url_for('static', filename='js/d3.stuff.js') }}" charset="utf-8" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(function () {
+			// document ready
+			var d3_width = $('.section-body').width();
+
+			stuff_count_monthly({{ monthly_stats|safe }}, d3_width);
+			stuff_money_stats({{ money_stats|safe }}, d3_width);
+
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+		<a class="card card-banner card-green-light">
+			<div class="card-body">
+				<i class="icon fa fa-shopping-basket fa-4x"></i>
+				<div class="content">
+					<div class="title">Sale Products</div>
+					<div class="value"><span class="sign"></span>{{ total_count }}</div>
+				</div>
+			</div>
+		</a>
+
+	</div>
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+		<a class="card card-banner card-yellow-light">
+			<div class="card-body">
+				<i class="icon fa fa-file-text-o fa-4x"></i>
+				<div class="content">
+					<div class="title">Tags Total</div>
+					<div class="value"><span class="sign"></span>50</div>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+		<a class="card card-banner card-blue-light">
+			<div class="card-body">
+				<i class="icon fa fa-thumbs-o-up fa-4x"></i>
+				<div class="content">
+					<div class="title">Post Likes</div>
+					<div class="value"><span class="sign"></span>2453</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				{{ current_rule.site }}
+			</div>
+			<div class="card-body">
+				<div class="row">
+
+					<div class="col-lg-6 col-md-6">
+						<div class="section">
+							<div class="section-title">产品变化趋势（月份）</div>
+							<div class="section-body">
+								<div class="monthly-stats"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6 col-md-6">
+						<div class="section">
+							<div class="section-title">产品价位分析</div>
+							<div class="section-body">
+								<div class="money-stats"></div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				Product List
+			</div>
+			<div class="card-body">
+				<div class="row">
+					{% for stuff in stuff_list %}
+					<div class="col-md-3 col-sm-6">
+						<div class="thumbnail">
+							<img src="{{ stuff.image_url }}" class="img-responsive">
+							<div class="caption">
+								<h4 class="title">{{ stuff.title | truncate(10, True) }}</h4>
+								<p class="description">
+									<span class="text-success">
+										￥{{ stuff.sale_price }}
+									</span>
+								</p>
+								<p class="description">
+									{{ stuff.published_at | dateformat }}
+								</p>
+								<div>
+									<a href="{{ stuff.url }}" target="_blank" class="btn btn-success btn-xs" role="button">View Detail</a>
+									<a href="#" class="btn btn-light btn-default btn-xs" role="button">Delete</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

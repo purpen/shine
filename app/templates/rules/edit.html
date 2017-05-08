@@ -1,0 +1,179 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				Edit the rule
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form form-horizontal" action="" method="post" name="create">
+							{{ form.hidden_tag() }}
+							<div class="section">
+								<div class="section-title">
+									Information
+								</div>
+								<div class="section-body">
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="site">{{ _('Site Name:') }}</label>
+										<div class="col-md-9">
+											{{ form.site(maxlength=32, class='form-control', value=rule.site) }}
+											{% for error in form.errors.site %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="name">{{ _('Spider Name:') }}</label>
+										<div class="col-md-9">
+											{{ form.name(maxlength = 64, class = 'form-control', value=rule.name) }}
+											{% for error in form.errors.nickname %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="allow_domains">{{ _('Allow domains:') }}</label>
+										<div class="col-md-9">
+											{{ form.allow_domains(class = 'form-control', value=rule.allow_domains) }}
+											{% for error in form.errors.allow_domains %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="start_urls">{{ _('Start urls:') }}</label>
+										<div class="col-md-9">
+											{{ form.start_urls(class = 'form-control', value=rule.start_urls) }}
+											{% for error in form.errors.start_urls %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="next_page">{{ _('Next page:') }}</label>
+										<div class="col-md-9">
+											{{ form.next_page(class = 'form-control', value=rule.next_page) }}
+											{% for error in form.errors.next_page %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="allow_url">{{ _('Allow url:') }}</label>
+										<div class="col-md-9">
+											{{ form.allow_url(class = 'form-control', value=rule.allow_url) }}
+											{% for error in form.errors.allow_url %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="extract_from">{{ _('Extract from:') }}</label>
+										<div class="col-md-9">
+											{{ form.extract_from(class = 'form-control', value=rule.extract_from) }}
+											{% for error in form.errors.extract_from %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="title_xpath">{{ _('Title xpath:') }}</label>
+										<div class="col-md-9">
+											{{ form.title_xpath(class='form-control', value=rule.title_xpath) }}
+											{% for error in form.errors.title_xpath %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="meta_xpath">{{ _('Meta xpath:') }}</label>
+										<div class="col-md-9">
+											{{ form.meta_xpath(class='form-control', value=rule.meta_xpath) }}
+											{% for error in form.errors.meta_xpath %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="image_xpath">{{ _('Image xpath:') }}</label>
+										<div class="col-md-9">
+											{{ form.image_xpath(class = 'form-control', value=rule.image_xpath) }}
+											{% for error in form.errors.image_xpath %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="price_xpath">{{ _('Price xpath:') }}</label>
+										<div class="col-md-9">
+											{{ form.price_xpath(class = 'form-control', value=rule.price_xpath) }}
+											{% for error in form.errors.price_xpath %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="original_price_xpath">{{ _('Original Price xpath:') }}</label>
+										<div class="col-md-9">
+											{{ form.original_price_xpath(class = 'form-control', value=rule.original_price_xpath) }}
+											{% for error in form.errors.original_price_xpath %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group {% if form.errors.post %} has-error{% endif %}">
+										<label class="col-md-3 control-label" for="shop_name_xpath">{{ _('Shop name xpath:') }}</label>
+										<div class="col-md-9">
+											{{ form.shop_name_xpath(class = 'form-control', value=rule.shop_name_xpath) }}
+											{% for error in form.errors.shop_name_xpath %}
+											<span class="help-block">[{{ error }}]</span><br>
+											{% endfor %}
+										</div>
+									</div>
+
+									<div class="form-group">
+										<div class="col-md-9 col-md-offset-3">
+											<div class="checkbox">
+												<input id="enabled" type="checkbox" name="enabled" {% if rule.enabled %}checked="checked" {% endif%} value="{{ rule.enabled }}">
+												<label for="enabled"> {{ _('Enabled') }} </label>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<div class="form-footer">
+								<div class="form-group">
+									<div class="col-md-9 col-md-offset-3">
+										<button type="submit" class="btn btn-primary">{{ _('Save Changes') }}</button>
+										<button type="button" class="btn btn-default">Cancel</button>
+									</div>
+								</div>
+							</div>
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
